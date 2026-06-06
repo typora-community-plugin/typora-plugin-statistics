@@ -32,6 +32,72 @@ export class StatisticsSettingTab extends SettingTab {
     })
 
     this.addSetting(setting => {
+      setting.addName(t.heading1Name)
+      setting.addDescription(t.heading1Desc)
+      setting.addCheckbox(checkbox => {
+        checkbox.checked = settings.get('enableHeading1')
+        checkbox.onchange = () => {
+          settings.set('enableHeading1', checkbox.checked)
+        }
+      })
+    })
+
+    this.addSetting(setting => {
+      setting.addName(t.heading2Name)
+      setting.addDescription(t.heading2Desc)
+      setting.addCheckbox(checkbox => {
+        checkbox.checked = settings.get('enableHeading2')
+        checkbox.onchange = () => {
+          settings.set('enableHeading2', checkbox.checked)
+        }
+      })
+    })
+
+    this.addSetting(setting => {
+      setting.addName(t.heading3Name)
+      setting.addDescription(t.heading3Desc)
+      setting.addCheckbox(checkbox => {
+        checkbox.checked = settings.get('enableHeading3')
+        checkbox.onchange = () => {
+          settings.set('enableHeading3', checkbox.checked)
+        }
+      })
+    })
+
+    this.addSetting(setting => {
+      setting.addName(t.heading4Name)
+      setting.addDescription(t.heading4Desc)
+      setting.addCheckbox(checkbox => {
+        checkbox.checked = settings.get('enableHeading4')
+        checkbox.onchange = () => {
+          settings.set('enableHeading4', checkbox.checked)
+        }
+      })
+    })
+
+    this.addSetting(setting => {
+      setting.addName(t.heading5Name)
+      setting.addDescription(t.heading5Desc)
+      setting.addCheckbox(checkbox => {
+        checkbox.checked = settings.get('enableHeading5')
+        checkbox.onchange = () => {
+          settings.set('enableHeading5', checkbox.checked)
+        }
+      })
+    })
+
+    this.addSetting(setting => {
+      setting.addName(t.heading6Name)
+      setting.addDescription(t.heading6Desc)
+      setting.addCheckbox(checkbox => {
+        checkbox.checked = settings.get('enableHeading6')
+        checkbox.onchange = () => {
+          settings.set('enableHeading6', checkbox.checked)
+        }
+      })
+    })
+
+    this.addSetting(setting => {
       setting.addName(t.paragraphsName)
       setting.addDescription(t.paragraphsDesc)
       setting.addCheckbox(checkbox => {

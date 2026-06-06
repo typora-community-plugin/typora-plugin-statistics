@@ -37,6 +37,66 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
         },
       },
       {
+        key: 'enableHeading1',
+        handler: {
+          id: 'heading-1',
+          name: t.statHeading1,
+          eval() {
+            return String(document.querySelectorAll<HTMLElement>('h1[mdtype="heading"]').length)
+          },
+        },
+      },
+      {
+        key: 'enableHeading2',
+        handler: {
+          id: 'heading-2',
+          name: t.statHeading2,
+          eval() {
+            return String(document.querySelectorAll<HTMLElement>('h2[mdtype="heading"]').length)
+          },
+        },
+      },
+      {
+        key: 'enableHeading3',
+        handler: {
+          id: 'heading-3',
+          name: t.statHeading3,
+          eval() {
+            return String(document.querySelectorAll<HTMLElement>('h3[mdtype="heading"]').length)
+          },
+        },
+      },
+      {
+        key: 'enableHeading4',
+        handler: {
+          id: 'heading-4',
+          name: t.statHeading4,
+          eval() {
+            return String(document.querySelectorAll<HTMLElement>('h4[mdtype="heading"]').length)
+          },
+        },
+      },
+      {
+        key: 'enableHeading5',
+        handler: {
+          id: 'heading-5',
+          name: t.statHeading5,
+          eval() {
+            return String(document.querySelectorAll<HTMLElement>('h5[mdtype="heading"]').length)
+          },
+        },
+      },
+      {
+        key: 'enableHeading6',
+        handler: {
+          id: 'heading-6',
+          name: t.statHeading6,
+          eval() {
+            return String(document.querySelectorAll<HTMLElement>('h6[mdtype="heading"]').length)
+          },
+        },
+      },
+      {
         key: 'enableParagraphs',
         handler: {
           id: 'paragraphs',
