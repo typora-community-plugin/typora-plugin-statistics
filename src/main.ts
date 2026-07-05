@@ -31,8 +31,7 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           id: 'headings',
           name: t.statHeadings,
           eval() {
-            const headings = document.querySelectorAll<HTMLElement>('[mdtype="heading"]')
-            return String(headings.length)
+            return String(countELements('[mdtype="heading"]'))
           },
         },
       },
@@ -42,7 +41,7 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           id: 'heading-1',
           name: t.statHeading1,
           eval() {
-            return String(document.querySelectorAll<HTMLElement>('h1[mdtype="heading"]').length)
+            return String(countELements('h1[mdtype="heading"]'))
           },
         },
       },
@@ -52,7 +51,7 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           id: 'heading-2',
           name: t.statHeading2,
           eval() {
-            return String(document.querySelectorAll<HTMLElement>('h2[mdtype="heading"]').length)
+            return String(countELements('h2[mdtype="heading"]'))
           },
         },
       },
@@ -62,7 +61,7 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           id: 'heading-3',
           name: t.statHeading3,
           eval() {
-            return String(document.querySelectorAll<HTMLElement>('h3[mdtype="heading"]').length)
+            return String(countELements('h3[mdtype="heading"]'))
           },
         },
       },
@@ -72,7 +71,7 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           id: 'heading-4',
           name: t.statHeading4,
           eval() {
-            return String(document.querySelectorAll<HTMLElement>('h4[mdtype="heading"]').length)
+            return String(countELements('h4[mdtype="heading"]'))
           },
         },
       },
@@ -82,7 +81,7 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           id: 'heading-5',
           name: t.statHeading5,
           eval() {
-            return String(document.querySelectorAll<HTMLElement>('h5[mdtype="heading"]').length)
+            return String(countELements('h5[mdtype="heading"]'))
           },
         },
       },
@@ -92,7 +91,7 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           id: 'heading-6',
           name: t.statHeading6,
           eval() {
-            return String(document.querySelectorAll<HTMLElement>('h6[mdtype="heading"]').length)
+            return String(countELements('h6[mdtype="heading"]'))
           },
         },
       },
@@ -102,9 +101,7 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           id: 'paragraphs',
           name: t.statParagraphs,
           eval() {
-            const paragraphs = Array.from(document.querySelectorAll<HTMLElement>('[mdtype="paragraph"]'))
-              .filter(el => el.textContent && el.textContent.trim().length > 0)
-            return String(paragraphs.length)
+            return String(countELements('[mdtype="paragraph"]'))
           },
         },
       },
@@ -129,9 +126,9 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
             const md = context.markdown
             if (!md) return '0'
             const words = +(context.get('words') ?? 0)
-            const paragraphs = Array.from(document.querySelectorAll<HTMLElement>('[mdtype="paragraph"]'))
-              .filter(el => el.textContent && el.textContent.trim().length > 0)
-            return (words / paragraphs.length).toFixed(2)
+            const paragraphs = countELements('[mdtype="paragraph"]')
+            if (!paragraphs) return '0'
+            return (words / paragraphs).toFixed(2)
           },
         },
       },
@@ -152,6 +149,121 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
       },
     ]
 
+    const selectionStatHandlers: Array<{ key: string, handler: StatisticHandler }> = [
+      {
+        key: 'enableHeading1',
+        handler: {
+          id: 'sel-heading-1',
+          name: t.statHeading1,
+          eval() {
+            return String(countSelectionElements('h1[mdtype="heading"]'))
+          },
+        },
+      },
+      {
+        key: 'enableHeading2',
+        handler: {
+          id: 'sel-heading-2',
+          name: t.statHeading2,
+          eval() {
+            return String(countSelectionElements('h2[mdtype="heading"]'))
+          },
+        },
+      },
+      {
+        key: 'enableHeading3',
+        handler: {
+          id: 'sel-heading-3',
+          name: t.statHeading3,
+          eval() {
+            return String(countSelectionElements('h3[mdtype="heading"]'))
+          },
+        },
+      },
+      {
+        key: 'enableHeading4',
+        handler: {
+          id: 'sel-heading-4',
+          name: t.statHeading4,
+          eval() {
+            return String(countSelectionElements('h4[mdtype="heading"]'))
+          },
+        },
+      },
+      {
+        key: 'enableHeading5',
+        handler: {
+          id: 'sel-heading-5',
+          name: t.statHeading5,
+          eval() {
+            return String(countSelectionElements('h5[mdtype="heading"]'))
+          },
+        },
+      },
+      {
+        key: 'enableHeading6',
+        handler: {
+          id: 'sel-heading-6',
+          name: t.statHeading6,
+          eval() {
+            return String(countSelectionElements('h6[mdtype="heading"]'))
+          },
+        },
+      },
+      {
+        key: 'enableParagraphs',
+        handler: {
+          id: 'sel-paragraphs',
+          name: t.statParagraphs,
+          eval() {
+            return String(countSelectionElements('[mdtype="paragraph"]'))
+          },
+        },
+      },
+      {
+        key: 'enableSentences',
+        handler: {
+          id: 'sel-sentences',
+          name: t.statSentences,
+          eval(context) {
+            const text = context.selectionText
+            if (!text) return '0'
+            return String(countSentences(text))
+          },
+        },
+      },
+      {
+        key: 'enableAvgWpp',
+        handler: {
+          id: 'sel-avg-wpp',
+          name: t.statAvgWpp,
+          eval(context) {
+            const text = context.selectionText
+            if (!text) return '0'
+            const words = +(context.get('selected-words') ?? 0)
+            const paragraphs = countSelectionElements('[mdtype="paragraph"]')
+            if (!paragraphs) return '0'
+            return (words / paragraphs).toFixed(2)
+          },
+        },
+      },
+      {
+        key: 'enableAvgWps',
+        handler: {
+          id: 'sel-avg-wps',
+          name: t.statAvgWps,
+          eval(context) {
+            const text = context.selectionText
+            if (!text) return '0'
+            const words = +(context.get('selected-words') ?? 0)
+            const sentences = +(context.get('sel-sentences') ?? countSentences(text))
+            if (!sentences) return '0'
+            return (words / sentences).toFixed(2)
+          },
+        },
+      },
+    ]
+
     const registerStats = () => {
       this.statDisposers.forEach(d => d())
       this.statDisposers.clear()
@@ -162,10 +274,17 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
           this.statDisposers.set(handler.id, dispose)
         }
       }
+
+      for (const { key, handler } of selectionStatHandlers) {
+        if (this.settings.get(key as any)) {
+          const dispose = stats.registerSelectionStatistic(handler)
+          this.statDisposers.set(handler.id, dispose)
+        }
+      }
     }
 
     // Listen for setting changes to re-register stats live
-    const keys = statHandlers.map(s => s.key)
+    const keys = [...statHandlers.map(s => s.key), ...selectionStatHandlers.map(s => s.key)]
     for (const key of keys) {
       this.register(
         this.settings.onChange(key as any, () => registerStats())
@@ -181,6 +300,29 @@ export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
     this.statDisposers.forEach(d => d())
     this.statDisposers.clear()
   }
+}
+
+function countELements(selector: string): number {
+  return Array.from(document.querySelectorAll<HTMLElement>(selector))
+    .filter(el => el.textContent && el.textContent.trim().length > 0)
+    .length
+}
+
+/** Count elements matching a CSS selector within the selected region. */
+function countSelectionElements(selector: string): number {
+  const sel = document.getSelection()
+  if (!sel || sel.isCollapsed || !sel.rangeCount) return 0
+
+  const range = sel.getRangeAt(0)
+  const elements = Array.from(document.querySelectorAll<HTMLElement>(selector))
+    .filter(el => el.textContent && el.textContent.trim().length > 0)
+  let count = 0
+
+  for (const el of elements) {
+    if (range.intersectsNode(el)) count++
+  }
+
+  return count
 }
 
 /** Count sentences by Western (. ! ? + space/EOL) and CJK (。！？…) delimiters. */
