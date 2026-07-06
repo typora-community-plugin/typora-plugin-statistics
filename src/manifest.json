@@ -1,7 +1,7 @@
 {
   "id": "typora-community-plugin.statistics",
   "name": "Statistics",
-  "description": "",
+  "description": "Display document statistics.",
   "author": "plylrnsdy",
   "authorUrl": "https://github.com/plylrnsdy",
   "repo": "typora-community-plugin/typora-plugin-statistics",
