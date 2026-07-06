@@ -1,14 +1,14 @@
-import { I18n, Plugin, PluginSettings, StatisticHandler } from '@typora-community-plugin/core'
+import { I18n, Plugin, PluginSettings, StatisticHandler, path } from '@typora-community-plugin/core'
 import type { DisposeFunc } from '@typora-community-plugin/core'
-import { LANGS } from './i18n'
+import * as Locale from './locales/lang.en.json'
 import { StatisticsSettingTab } from './setting-tab'
 import { DEFAULT_SETTINGS, StatisticsSettings } from './settings'
 
 
 export default class StatisticsPlugin extends Plugin<StatisticsSettings> {
 
-  i18n = new I18n({
-    resources: LANGS,
+  i18n = new I18n<typeof Locale>({
+    localePath: path.join(this.manifest.dir!, 'locales'),
   })
 
   private statDisposers = new Map<string, DisposeFunc>()
