@@ -5,7 +5,7 @@ import type StatisticsPlugin from "./main"
 export class StatisticsSettingTab extends SettingTab {
 
   get name() {
-    return this.plugin.i18n.t.settingTitle
+    return 'Statistics'
   }
 
   constructor(private plugin: StatisticsPlugin) {
